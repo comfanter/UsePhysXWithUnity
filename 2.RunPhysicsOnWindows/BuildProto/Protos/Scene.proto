@@ -8,6 +8,12 @@ enum ColliderType
 	MESH    = 4;
 }
 
+message Vector2
+{
+	optional double x = 1 [default = 0];
+	optional double y = 2 [default = 0];
+}
+
 message Vector3
 {
 	optional double x = 1 [default = 0];
@@ -75,4 +81,5 @@ message U3DPhysxMesh
 	optional int32 indices_count = 8;
 	repeated int32 indices		= 9;
 	optional bool fixRotation	= 10;
+	repeated Vector2 uvs		= 11;
 }

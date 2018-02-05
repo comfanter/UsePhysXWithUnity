@@ -37,12 +37,14 @@ namespace protobuf_Scene_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[7];
+  static const ::google::protobuf::internal::ParseTable schema[8];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
 };
 void AddDescriptors();
+void InitDefaultsVector2Impl();
+void InitDefaultsVector2();
 void InitDefaultsVector3Impl();
 void InitDefaultsVector3();
 void InitDefaultsVector4Impl();
@@ -58,6 +60,7 @@ void InitDefaultsU3DPhysxCapsule();
 void InitDefaultsU3DPhysxMeshImpl();
 void InitDefaultsU3DPhysxMesh();
 inline void InitDefaults() {
+  InitDefaultsVector2();
   InitDefaultsVector3();
   InitDefaultsVector4();
   InitDefaultsU3DPhysxScene();
@@ -84,6 +87,9 @@ extern U3DPhysxSceneDefaultTypeInternal _U3DPhysxScene_default_instance_;
 class U3DPhysxSphere;
 class U3DPhysxSphereDefaultTypeInternal;
 extern U3DPhysxSphereDefaultTypeInternal _U3DPhysxSphere_default_instance_;
+class Vector2;
+class Vector2DefaultTypeInternal;
+extern Vector2DefaultTypeInternal _Vector2_default_instance_;
 class Vector3;
 class Vector3DefaultTypeInternal;
 extern Vector3DefaultTypeInternal _Vector3_default_instance_;
@@ -117,6 +123,126 @@ inline bool ColliderType_Parse(
     ColliderType_descriptor(), name, value);
 }
 // ===================================================================
+
+class Vector2 : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:killer.proto.Vector2) */ {
+ public:
+  Vector2();
+  virtual ~Vector2();
+
+  Vector2(const Vector2& from);
+
+  inline Vector2& operator=(const Vector2& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  Vector2(Vector2&& from) noexcept
+    : Vector2() {
+    *this = ::std::move(from);
+  }
+
+  inline Vector2& operator=(Vector2&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Vector2& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const Vector2* internal_default_instance() {
+    return reinterpret_cast<const Vector2*>(
+               &_Vector2_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    0;
+
+  void Swap(Vector2* other);
+  friend void swap(Vector2& a, Vector2& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline Vector2* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  Vector2* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const Vector2& from);
+  void MergeFrom(const Vector2& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(Vector2* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional double x = 1 [default = 0];
+  bool has_x() const;
+  void clear_x();
+  static const int kXFieldNumber = 1;
+  double x() const;
+  void set_x(double value);
+
+  // optional double y = 2 [default = 0];
+  bool has_y() const;
+  void clear_y();
+  static const int kYFieldNumber = 2;
+  double y() const;
+  void set_y(double value);
+
+  // @@protoc_insertion_point(class_scope:killer.proto.Vector2)
+ private:
+  void set_has_x();
+  void clear_has_x();
+  void set_has_y();
+  void clear_has_y();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  double x_;
+  double y_;
+  friend struct ::protobuf_Scene_2eproto::TableStruct;
+  friend void ::protobuf_Scene_2eproto::InitDefaultsVector2Impl();
+};
+// -------------------------------------------------------------------
 
 class Vector3 : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:killer.proto.Vector3) */ {
  public:
@@ -160,7 +286,7 @@ class Vector3 : public ::google::protobuf::Message /* @@protoc_insertion_point(c
                &_Vector3_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    0;
+    1;
 
   void Swap(Vector3* other);
   friend void swap(Vector3& a, Vector3& b) {
@@ -290,7 +416,7 @@ class Vector4 : public ::google::protobuf::Message /* @@protoc_insertion_point(c
                &_Vector4_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    1;
+    2;
 
   void Swap(Vector4* other);
   friend void swap(Vector4& a, Vector4& b) {
@@ -430,7 +556,7 @@ class U3DPhysxScene : public ::google::protobuf::Message /* @@protoc_insertion_p
                &_U3DPhysxScene_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    2;
+    3;
 
   void Swap(U3DPhysxScene* other);
   friend void swap(U3DPhysxScene& a, U3DPhysxScene& b) {
@@ -610,7 +736,7 @@ class U3DPhysxSphere : public ::google::protobuf::Message /* @@protoc_insertion_
                &_U3DPhysxSphere_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    3;
+    4;
 
   void Swap(U3DPhysxSphere* other);
   friend void swap(U3DPhysxSphere& a, U3DPhysxSphere& b) {
@@ -764,7 +890,7 @@ class U3DPhysxBox : public ::google::protobuf::Message /* @@protoc_insertion_poi
                &_U3DPhysxBox_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    4;
+    5;
 
   void Swap(U3DPhysxBox* other);
   friend void swap(U3DPhysxBox& a, U3DPhysxBox& b) {
@@ -938,7 +1064,7 @@ class U3DPhysxCapsule : public ::google::protobuf::Message /* @@protoc_insertion
                &_U3DPhysxCapsule_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    5;
+    6;
 
   void Swap(U3DPhysxCapsule* other);
   friend void swap(U3DPhysxCapsule& a, U3DPhysxCapsule& b) {
@@ -1102,7 +1228,7 @@ class U3DPhysxMesh : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_U3DPhysxMesh_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    6;
+    7;
 
   void Swap(U3DPhysxMesh* other);
   friend void swap(U3DPhysxMesh& a, U3DPhysxMesh& b) {
@@ -1172,6 +1298,18 @@ class U3DPhysxMesh : public ::google::protobuf::Message /* @@protoc_insertion_po
       indices() const;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_indices();
+
+  // repeated .killer.proto.Vector2 uvs = 11;
+  int uvs_size() const;
+  void clear_uvs();
+  static const int kUvsFieldNumber = 11;
+  const ::killer::proto::Vector2& uvs(int index) const;
+  ::killer::proto::Vector2* mutable_uvs(int index);
+  ::killer::proto::Vector2* add_uvs();
+  ::google::protobuf::RepeatedPtrField< ::killer::proto::Vector2 >*
+      mutable_uvs();
+  const ::google::protobuf::RepeatedPtrField< ::killer::proto::Vector2 >&
+      uvs() const;
 
   // optional .killer.proto.Vector4 rotation = 5;
   bool has_rotation() const;
@@ -1259,6 +1397,7 @@ class U3DPhysxMesh : public ::google::protobuf::Message /* @@protoc_insertion_po
   mutable int _cached_size_;
   ::google::protobuf::RepeatedPtrField< ::killer::proto::Vector3 > vertices_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > indices_;
+  ::google::protobuf::RepeatedPtrField< ::killer::proto::Vector2 > uvs_;
   ::killer::proto::Vector4* rotation_;
   ::killer::proto::Vector3* pos_;
   ::killer::proto::Vector3* scale_;
@@ -1279,6 +1418,58 @@ class U3DPhysxMesh : public ::google::protobuf::Message /* @@protoc_insertion_po
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
+// Vector2
+
+// optional double x = 1 [default = 0];
+inline bool Vector2::has_x() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void Vector2::set_has_x() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void Vector2::clear_has_x() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void Vector2::clear_x() {
+  x_ = 0;
+  clear_has_x();
+}
+inline double Vector2::x() const {
+  // @@protoc_insertion_point(field_get:killer.proto.Vector2.x)
+  return x_;
+}
+inline void Vector2::set_x(double value) {
+  set_has_x();
+  x_ = value;
+  // @@protoc_insertion_point(field_set:killer.proto.Vector2.x)
+}
+
+// optional double y = 2 [default = 0];
+inline bool Vector2::has_y() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void Vector2::set_has_y() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void Vector2::clear_has_y() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void Vector2::clear_y() {
+  y_ = 0;
+  clear_has_y();
+}
+inline double Vector2::y() const {
+  // @@protoc_insertion_point(field_get:killer.proto.Vector2.y)
+  return y_;
+}
+inline void Vector2::set_y(double value) {
+  set_has_y();
+  y_ = value;
+  // @@protoc_insertion_point(field_set:killer.proto.Vector2.y)
+}
+
+// -------------------------------------------------------------------
+
 // Vector3
 
 // optional double x = 1 [default = 0];
@@ -2638,9 +2829,41 @@ inline void U3DPhysxMesh::set_fixrotation(bool value) {
   // @@protoc_insertion_point(field_set:killer.proto.U3DPhysxMesh.fixRotation)
 }
 
+// repeated .killer.proto.Vector2 uvs = 11;
+inline int U3DPhysxMesh::uvs_size() const {
+  return uvs_.size();
+}
+inline void U3DPhysxMesh::clear_uvs() {
+  uvs_.Clear();
+}
+inline const ::killer::proto::Vector2& U3DPhysxMesh::uvs(int index) const {
+  // @@protoc_insertion_point(field_get:killer.proto.U3DPhysxMesh.uvs)
+  return uvs_.Get(index);
+}
+inline ::killer::proto::Vector2* U3DPhysxMesh::mutable_uvs(int index) {
+  // @@protoc_insertion_point(field_mutable:killer.proto.U3DPhysxMesh.uvs)
+  return uvs_.Mutable(index);
+}
+inline ::killer::proto::Vector2* U3DPhysxMesh::add_uvs() {
+  // @@protoc_insertion_point(field_add:killer.proto.U3DPhysxMesh.uvs)
+  return uvs_.Add();
+}
+inline ::google::protobuf::RepeatedPtrField< ::killer::proto::Vector2 >*
+U3DPhysxMesh::mutable_uvs() {
+  // @@protoc_insertion_point(field_mutable_list:killer.proto.U3DPhysxMesh.uvs)
+  return &uvs_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::killer::proto::Vector2 >&
+U3DPhysxMesh::uvs() const {
+  // @@protoc_insertion_point(field_list:killer.proto.U3DPhysxMesh.uvs)
+  return uvs_;
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

@@ -10,6 +10,32 @@
 // Generated from: Scene.proto
 namespace killer.proto
 {
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"Vector2")]
+  public partial class Vector2 : global::ProtoBuf.IExtensible
+  {
+    public Vector2() {}
+    
+    private double _x = (double)0;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"x", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue((double)0)]
+    public double x
+    {
+      get { return _x; }
+      set { _x = value; }
+    }
+    private double _y = (double)0;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"y", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue((double)0)]
+    public double y
+    {
+      get { return _y; }
+      set { _y = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"Vector3")]
   public partial class Vector3 : global::ProtoBuf.IExtensible
   {
@@ -397,6 +423,13 @@ namespace killer.proto
       get { return _fixRotation; }
       set { _fixRotation = value; }
     }
+    private readonly global::System.Collections.Generic.List<killer.proto.Vector2> _uvs = new global::System.Collections.Generic.List<killer.proto.Vector2>();
+    [global::ProtoBuf.ProtoMember(11, Name=@"uvs", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<killer.proto.Vector2> uvs
+    {
+      get { return _uvs; }
+    }
+  
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
