@@ -358,6 +358,45 @@ namespace killer.proto
       get { return _rotation; }
       set { _rotation = value; }
     }
+    private killer.proto.Vector3 _pos = null;
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"pos", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public killer.proto.Vector3 pos
+    {
+      get { return _pos; }
+      set { _pos = value; }
+    }
+    private killer.proto.Vector3 _scale = null;
+    [global::ProtoBuf.ProtoMember(7, IsRequired = false, Name=@"scale", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public killer.proto.Vector3 scale
+    {
+      get { return _scale; }
+      set { _scale = value; }
+    }
+    private int _indices_count = default(int);
+    [global::ProtoBuf.ProtoMember(8, IsRequired = false, Name=@"indices_count", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int indices_count
+    {
+      get { return _indices_count; }
+      set { _indices_count = value; }
+    }
+    private readonly global::System.Collections.Generic.List<int> _indices = new global::System.Collections.Generic.List<int>();
+    [global::ProtoBuf.ProtoMember(9, Name=@"indices", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public global::System.Collections.Generic.List<int> indices
+    {
+      get { return _indices; }
+    }
+  
+    private bool _fixRotation = default(bool);
+    [global::ProtoBuf.ProtoMember(10, IsRequired = false, Name=@"fixRotation", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(default(bool))]
+    public bool fixRotation
+    {
+      get { return _fixRotation; }
+      set { _fixRotation = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }

@@ -70,4 +70,9 @@ message U3DPhysxMesh
 	optional int32 vertex_count = 3;
 	repeated Vector3 vertices   = 4;
 	optional Vector4 rotation   = 5;
+	optional Vector3 pos		= 6;
+	optional Vector3 scale		= 7;
+	optional int32 indices_count = 8;
+	repeated int32 indices		= 9;
+	optional bool fixRotation	= 10;
 }

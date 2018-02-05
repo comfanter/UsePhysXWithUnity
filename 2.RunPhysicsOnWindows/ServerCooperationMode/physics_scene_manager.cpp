@@ -1,4 +1,8 @@
 #include "physics_scene_manager.h"
+#include "PxProfileZoneManager.h"
+
+using namespace physx;
+using namespace physx::profile;
 
 PhysicsSceneManager::PhysicsSceneManager()
 {
@@ -13,6 +17,8 @@ void PhysicsSceneManager::ResetData()
 	m_raduis         = 0.3f * m_scale_factor;
 	m_stack_z        = 10.f;
 	m_is_crouching   = false;
+
+	m_DefaultDensity = 20.0f;
 }
 
 PhysicsSceneManager::~PhysicsSceneManager()
@@ -22,15 +28,15 @@ PhysicsSceneManager::~PhysicsSceneManager()
 bool PhysicsSceneManager::InitPhysics()
 {
 	//foundation and physics must be created at initialization stage
-	m_foundation = PxCreateFoundation(PX_PHYSICS_VERSION, m_allocator, m_error_callback);
+	m_foundation = PxCreateFoundation(PX_FOUNDATION_VERSION, m_allocator, m_error_callback);
 	if (m_foundation == NULL)
 	{
 		std::cerr << "PxCreateFoundation failed!" << std::endl;
 		exit(0);
 	}
 
-	PxProfileZoneManager *profileZoneMgr = &PxProfileZoneManager::createProfileZoneManager(m_foundation);
-	m_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *m_foundation, PxTolerancesScale(), true, profileZoneMgr);
+	//PxProfileZoneManager *profileZoneMgr = &PxProfileZoneManager::createProfileZoneManager(m_foundation);
+	m_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *m_foundation, PxTolerancesScale(), true);
 	if (m_physics == NULL)
 	{
 		std::cerr << "PxCreatePhysics failed!" << std::endl;
@@ -44,7 +50,7 @@ bool PhysicsSceneManager::InitPhysics()
 		exit(0);
 	}
 
-	SetupPvdDebug();
+	//SetupPvdDebug();
 
 	//scene descriptor
 	PxSceneDesc sceneDesc(m_physics->getTolerancesScale());
@@ -70,6 +76,7 @@ bool PhysicsSceneManager::InitPhysics()
 	return true;
 }
 
+/*
 void PhysicsSceneManager::SetupPvdDebug()
 {
 	// check if PvdConnection manager is available on this platform
@@ -88,11 +95,12 @@ void PhysicsSceneManager::SetupPvdDebug()
 		PxVisualDebuggerExt::createConnection(m_physics->getPvdConnectionManager(),
 		pvd_host_ip, port, timeout, connectionFlags);
 }
+*/
 
 bool PhysicsSceneManager::InitSceneFromFile()
 {
 	//std::string file_path = "../scenes/battle_scene_pvp_03.scene";
-	std::string file_path = "../Scenes/test.scene";
+	std::string file_path = "../../Scenes/main.scene";
 	std::ifstream input(file_path.c_str(), std::ios::in | std::ios::binary);
 	if (!input)
 	{
@@ -113,29 +121,29 @@ bool PhysicsSceneManager::InitSceneFromFile()
 	std::cout << "Capsule collider: " << cur_scene.capsule_collider_size() << std::endl;
 	std::cout << "Mesh  Collider: " << cur_scene.mesh_collider_size() << std::endl;
 
-	for (int i = 0; i < cur_scene.box_collider_size(); ++i)
-	{
-		U3DPhysxBox b = cur_scene.box_collider(i);
-		AddBoxFromU3D(b);
-	}
+	//for (int i = 0; i < cur_scene.box_collider_size(); ++i)
+	//{
+	//	U3DPhysxBox b = cur_scene.box_collider(i);
+	//	AddBoxFromU3D(b);
+	//}
 
-	for (int i = 0; i < cur_scene.sphere_collider_size(); ++i)
-	{
-		U3DPhysxSphere s = cur_scene.sphere_collider(i);
-		AddSphereFromU3D(s);
-	}
+	//for (int i = 0; i < cur_scene.sphere_collider_size(); ++i)
+	//{
+	//	U3DPhysxSphere s = cur_scene.sphere_collider(i);
+	//	AddSphereFromU3D(s);
+	//}
 
-	for (int i = 0; i < cur_scene.capsule_collider_size(); ++i)
-	{
-		U3DPhysxCapsule c = cur_scene.capsule_collider(i);
-		AddCapsuleFromU3D(c);
-	}
+	//for (int i = 0; i < cur_scene.capsule_collider_size(); ++i)
+	//{
+	//	U3DPhysxCapsule c = cur_scene.capsule_collider(i);
+	//	AddCapsuleFromU3D(c);
+	//}
 
-	for (int i = 0; i < cur_scene.mesh_collider_size(); ++i)
-	{
-		U3DPhysxMesh m = cur_scene.mesh_collider(i);
-		AddMeshFromU3D(m);
-	}
+	//for (int i = 0; i < cur_scene.mesh_collider_size(); ++i)
+	//{
+	//	U3DPhysxMesh m = cur_scene.mesh_collider(i);
+	//	AddMeshFromU3D(m);
+	//}
 
 	return true;
 }
@@ -357,7 +365,7 @@ void PhysicsSceneManager::AddMeshFromU3D(U3DPhysxMesh& mesh)
 	PxConvexMesh *convex_mesh = m_physics->createConvexMesh(input);
 
 	PxShape *convex_shape = m_physics->createShape(PxConvexMeshGeometry(convex_mesh), *m_material);
-	PxRigidStatic *mesh_actor = m_physics->createRigidStatic(PxTransform::createIdentity());
+	PxRigidStatic *mesh_actor = m_physics->createRigidStatic(PxTransform(PxVec3(0, 0, 0)));
 	mesh_actor->attachShape(*convex_shape);
 
 	m_scene->addActor(*mesh_actor);
@@ -365,6 +373,11 @@ void PhysicsSceneManager::AddMeshFromU3D(U3DPhysxMesh& mesh)
 	convex_shape->release();
 }
 
+
+void PhysicsSceneManager::createSphereFromU3D(U3DPhysxSphere& sphere)
+{
+	
+}
 
 void PhysicsSceneManager::StepPhysics(bool)
 {
@@ -376,12 +389,12 @@ void PhysicsSceneManager::CleanPhysics()
 {
 	m_scene->release();
 	m_dispatcher->release();
-	PxProfileZoneManager* profileZoneManager = m_physics->getProfileZoneManager();
-	if (m_pvdCon != NULL)
-		m_pvdCon->release();
+	//PxProfileZoneManager* profileZoneManager = m_physics->getProfileZoneManager();
+	//if (m_pvdCon != NULL)
+	//	m_pvdCon->release();
 
 	m_physics->release();
-	profileZoneManager->release();
+	//profileZoneManager->release();
 	m_foundation->release();
 	m_cooking->release();
 

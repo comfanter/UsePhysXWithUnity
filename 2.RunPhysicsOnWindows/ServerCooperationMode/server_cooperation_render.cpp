@@ -55,11 +55,11 @@ namespace
 		//analyze the scene, render every actor
 		PxScene *scene;
 		PxGetPhysics().getScenes(&scene, 1);
-		PxU32 nbActors = scene->getNbActors(PxActorTypeSelectionFlag::eRIGID_DYNAMIC | PxActorTypeSelectionFlag::eRIGID_STATIC);
+		PxU32 nbActors = scene->getNbActors(PxActorTypeFlag::eRIGID_DYNAMIC | PxActorTypeFlag::eRIGID_STATIC);
 		if (nbActors != 0)
 		{
 			std::vector<PxRigidActor*> actors(nbActors);
-			scene->getActors(PxActorTypeSelectionFlag::eRIGID_DYNAMIC | PxActorTypeSelectionFlag::eRIGID_STATIC, (PxActor**)&actors[0], nbActors);
+			scene->getActors(PxActorTypeFlag::eRIGID_DYNAMIC | PxActorTypeFlag::eRIGID_STATIC, (PxActor**)&actors[0], nbActors);
 			PhysicsSceneRender::RenderActors(&actors[0], (PxU32)actors.size(), true);
 		}
 

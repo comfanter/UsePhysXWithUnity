@@ -41,7 +41,7 @@ public:
 	bool InitPhysics();
 	void CleanPhysics();
 
-	void SetupPvdDebug();
+	//void SetupPvdDebug();
 	void StepPhysics(bool interactive);
 	void KeyPress(const char key, const PxTransform& camera);
 
@@ -63,10 +63,12 @@ private:
 	void AddCapsuleFromU3D(U3DPhysxCapsule& capsule);
 	void AddMeshFromU3D(U3DPhysxMesh& mesh);
 
+	void createSphereFromU3D(U3DPhysxSphere& sphere);
+
 private:
 	PxFoundation*                m_foundation;
 	PxPhysics*                   m_physics;
-	PxVisualDebuggerConnection * m_pvdCon;
+	//PxVisualDebuggerConnection * m_pvdCon;
 	PxCooking*                   m_cooking;
 	PxScene*                     m_scene;
 	PxMaterial*                  m_material;
@@ -85,5 +87,7 @@ private:
 	float                        m_raduis;
 	bool					     m_do_standup;
 	bool					     m_is_crouching;
+
+	PxReal						 m_DefaultDensity;
 };
 
