@@ -25,7 +25,6 @@ namespace Scene
 		[MenuItem("Tools/SceneExtractor/ExtractColliders")]
 		public static void ExtractorColliders() 
 		{
-            //var path = EditorUtility.SaveFilePanel("Save Scene Collider to...", "E:\\KillerProject_Cooperation_Mode\\KillerProject\\Assets\\Scenes\\Editor\\SceneCollider", "scene");
 		    var path = EditorUtility.SaveFilePanel("Save Scene Collider to..", "", "", "scene");
 		    if (path.Length == 0)
 		        return;
@@ -33,7 +32,7 @@ namespace Scene
             Debug.Log(path); // + "/" + Application.loadedLevelName
             var f_scene_out = File.Create(path);
 
-		    Collider[] allColliders = Resources.FindObjectsOfTypeAll<Collider>();
+            ElemCom[] allColliders = Resources.FindObjectsOfTypeAll<ElemCom>();
             Debug.Log(allColliders.Length);
 
             U3DPhysxScene scene = new U3DPhysxScene();
@@ -41,32 +40,38 @@ namespace Scene
 
 		    for (int i = 0; i < allColliders.Length; ++i)
 		    {
-		        Collider col = allColliders[i];
+		        Collider col = allColliders[i].GetComponent<Collider>();
+                if (col == null)
+                    continue;
 		        
 		        BoxCollider box_col         = col as BoxCollider;
 		        SphereCollider sphere_col   = col as SphereCollider;
                 CapsuleCollider capsule_col = col as CapsuleCollider;
                 MeshCollider mesh_col       = col as MeshCollider;
 
+                int id = (int)allColliders[i].id;
 		        if (box_col != null)
 		        {
-		            m_box_id++;
-                    scene.box_collider.Add(GeneratePhysxBoxCollider(m_box_id, box_col));
+		            //m_box_id++;
+                    scene.box_collider.Add(GeneratePhysxBoxCollider(id, box_col));
 		        }else if (sphere_col != null)
 		        {
-		            m_sphere_id++;
-                    scene.sphere_collider.Add(GeneratePhysxSphereCollider(m_sphere_id, sphere_col));
+		            //m_sphere_id++;
+                    scene.sphere_collider.Add(GeneratePhysxSphereCollider(id, sphere_col));
 		        }else if (capsule_col != null)
 		        {
-		            m_capsule_id++;
-                    scene.capsule_collider.Add(GeneratePhysxCapsuleCollider(m_capsule_id, capsule_col));
+		            //m_capsule_id++;
+                    scene.capsule_collider.Add(GeneratePhysxCapsuleCollider(id, capsule_col));
 		        }else if(mesh_col != null)
 		        {
-		            m_mesh_id++;
-                    scene.mesh_collider.Add(GeneratePhysxConvexMeshCollider(m_mesh_id, mesh_col));
+		            //m_mesh_id++;
+                    U3DPhysxMesh mesh = GeneratePhysxConvexMeshCollider(id, mesh_col);
+                    if (mesh != null)
+                        scene.mesh_collider.Add(mesh);
 		        }
 		    }
-            
+
+            Debug.Log("Mesh Count: " + scene.mesh_collider.Count);
             Serializer.Serialize(f_scene_out, scene);
             f_scene_out.Close();
         }
@@ -101,12 +106,10 @@ namespace Scene
             box.pos.y = box_col.transform.position.y;
             box.pos.z = box_col.transform.position.z;
 
-            //scale, BUG:考虑父节点对子节点的缩放
 	        box.x_extents = box_col.size.x * box_col.transform.localScale.x;
             box.y_extents = box_col.size.y * box_col.transform.localScale.y;
             box.z_extents = box_col.size.z * box_col.transform.localScale.z;
 
-            //rotation considered
             box.rotation = new killer.proto.Vector4();
             box.rotation.x = box_col.transform.rotation.x;
             box.rotation.y = box_col.transform.rotation.y;
@@ -139,7 +142,6 @@ namespace Scene
                                         sphere_col.transform.localScale.z);
             sphere.radius = sphere_col.radius * max_scale;
 
-            //rotation considered
             sphere.rotation = new killer.proto.Vector4();
             sphere.rotation.x = sphere_col.transform.rotation.x;
             sphere.rotation.y = sphere_col.transform.rotation.y;
@@ -175,7 +177,6 @@ namespace Scene
             //double max_scale = Math.Max(capsule_col.transform.localScale.x, capsule_col.transform.localScale.z);
             cap.raduis = capsule_col.radius; // * max_scale;
 
-            //rotation considered
             cap.rotation = new killer.proto.Vector4();
             cap.rotation.x = capsule_col.transform.rotation.x;
             cap.rotation.y = capsule_col.transform.rotation.y;
@@ -192,28 +193,99 @@ namespace Scene
 
 	    private static U3DPhysxMesh GeneratePhysxConvexMeshCollider(int id, MeshCollider mesh_col)
 	    {
-	        U3DPhysxMesh mesh = new U3DPhysxMesh();
+            if (mesh_col.sharedMesh == null)
+                return null;
+
+            if (mesh_col.GetComponent<ElemCom>() == null)
+                return null;
+
+            Transform tr = mesh_col.transform;
+            //tr.Rotate(UnityEngine.Vector3.up, 180, Space.Self);
+
+            Mesh sharedMesh = mesh_col.sharedMesh;
+
+            U3DPhysxMesh mesh = new U3DPhysxMesh();
 	        mesh.id = id;
 	        mesh.type = ColliderType.MESH;
 
-	        mesh.vertex_count = mesh_col.sharedMesh.vertexCount;
+            mesh.scale = new killer.proto.Vector3();
+
+            UnityEngine.Vector3 scale = GetScale(tr);
+            mesh.scale.x = scale.x;
+            mesh.scale.y = scale.y;
+            mesh.scale.z = scale.z;
+
+            mesh.vertex_count = mesh_col.sharedMesh.vertexCount;
 	        for (int i = 0; i < mesh_col.sharedMesh.vertexCount; ++i)
 	        {
                 killer.proto.Vector3 new_vertice = new killer.proto.Vector3();
-                //consider scale
-	            new_vertice.x = mesh_col.sharedMesh.vertices[i].x * mesh_col.transform.localScale.x;
-                new_vertice.y = mesh_col.sharedMesh.vertices[i].y * mesh_col.transform.localScale.y;
-                new_vertice.z = mesh_col.sharedMesh.vertices[i].z * mesh_col.transform.localScale.z;
+                new_vertice.x = mesh_col.sharedMesh.vertices[i].x * mesh.scale.x; //mesh_col.transform.localScale.x;
+                new_vertice.y = mesh_col.sharedMesh.vertices[i].y * mesh.scale.y; //mesh_col.transform.localScale.y;
+                new_vertice.z = mesh_col.sharedMesh.vertices[i].z * mesh.scale.z; //mesh_col.transform.localScale.z;
 
                 mesh.vertices.Add(new_vertice);
+
+                //sharedMesh.normals[i].x *= -1;
 	        }
 
-            //BUG:这里还差一个rotate
+            mesh.rotation = new killer.proto.Vector4();
+            mesh.rotation.x = tr.rotation.x;
+            mesh.rotation.y = tr.rotation.y;
+            mesh.rotation.z = tr.rotation.z;
+            mesh.rotation.w = tr.rotation.w;
+
+            mesh.pos = new killer.proto.Vector3();
+            mesh.pos.x = tr.position.x;
+            mesh.pos.y = tr.position.y;
+            mesh.pos.z = tr.position.z;
+
+            int[] indices = sharedMesh.GetIndices(0);
+            for (int i = 0; i < indices.Length; ++i)
+            {
+                mesh.indices.Add(indices[i]);
+            }
+            mesh.indices_count = (int)sharedMesh.GetIndexCount(0);
+
+            //rotation: x为-90度需要绕x轴旋转180度
+            if (Mathf.Abs(Mathf.Abs(tr.transform.localEulerAngles.x) - 270) < 10)
+            {
+                mesh.fixRotation = true;
+                Debug.LogError(tr.transform.localEulerAngles + " ^^^^^^^^^ " + tr.transform.eulerAngles);
+            }
+            else
+            {
+                mesh.fixRotation = false;
+            }
+
+            //uv
+            for (int i = 0; i < sharedMesh.uv.Length; ++i)
+            {
+                killer.proto.Vector2 uv = new killer.proto.Vector2();
+                uv.x = sharedMesh.uv[i].x;
+                uv.y = sharedMesh.uv[i].y;
+                mesh.uvs.Add(uv);
+            }
 
 	        Debug.Log("Mesh ID: " + mesh.id);
             Debug.Log("Mesh Vertex num: " + mesh.vertex_count);
+            Debug.Log("SubMeshCount: " + sharedMesh.subMeshCount);
             
 	        return mesh;
 	    }
+
+        private static UnityEngine.Vector3 GetScale(Transform tr)
+        {
+            Transform curTr = tr;
+            UnityEngine.Vector3 scale = tr.localScale;
+            while (curTr.parent != null)
+            {
+                scale.x *= curTr.parent.localScale.x;
+                scale.y *= curTr.parent.localScale.y;
+                scale.z *= curTr.parent.localScale.z;
+                curTr = curTr.parent;
+            }
+                
+            return scale;
+        }
 	}
 }
