@@ -366,6 +366,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::killer::proto::U3DPhysxMesh, indices_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::killer::proto::U3DPhysxMesh, fixrotation_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::killer::proto::U3DPhysxMesh, uvs_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::killer::proto::U3DPhysxMesh, triangles_),
   3,
   7,
   4,
@@ -377,6 +378,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,
   6,
   ~0u,
+  ~0u,
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 7, sizeof(::killer::proto::Vector2)},
@@ -386,7 +388,7 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 50, 60, sizeof(::killer::proto::U3DPhysxSphere)},
   { 65, 77, sizeof(::killer::proto::U3DPhysxBox)},
   { 84, 95, sizeof(::killer::proto::U3DPhysxCapsule)},
-  { 101, 117, sizeof(::killer::proto::U3DPhysxMesh)},
+  { 101, 118, sizeof(::killer::proto::U3DPhysxMesh)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -447,7 +449,7 @@ void AddDescriptorsImpl() {
       "ColliderType\022\"\n\003pos\030\003 \001(\0132\025.killer.proto"
       ".Vector3\022\016\n\006raduis\030\004 \001(\001\022\016\n\006height\030\005 \001(\001"
       "\022\'\n\010rotation\030\006 \001(\0132\025.killer.proto.Vector"
-      "4\"\327\002\n\014U3DPhysxMesh\022\n\n\002id\030\001 \001(\005\022(\n\004type\030\002"
+      "4\"\352\002\n\014U3DPhysxMesh\022\n\n\002id\030\001 \001(\005\022(\n\004type\030\002"
       " \001(\0162\032.killer.proto.ColliderType\022\024\n\014vert"
       "ex_count\030\003 \001(\005\022\'\n\010vertices\030\004 \003(\0132\025.kille"
       "r.proto.Vector3\022\'\n\010rotation\030\005 \001(\0132\025.kill"
@@ -455,12 +457,12 @@ void AddDescriptorsImpl() {
       "roto.Vector3\022$\n\005scale\030\007 \001(\0132\025.killer.pro"
       "to.Vector3\022\025\n\rindices_count\030\010 \001(\005\022\017\n\007ind"
       "ices\030\t \003(\005\022\023\n\013fixRotation\030\n \001(\010\022\"\n\003uvs\030\013"
-      " \003(\0132\025.killer.proto.Vector2*:\n\014ColliderT"
-      "ype\022\007\n\003BOX\020\001\022\n\n\006SPHERE\020\002\022\013\n\007CAPSULE\020\003\022\010\n"
-      "\004MESH\020\004"
+      " \003(\0132\025.killer.proto.Vector2\022\021\n\ttriangles"
+      "\030\014 \003(\005*:\n\014ColliderType\022\007\n\003BOX\020\001\022\n\n\006SPHER"
+      "E\020\002\022\013\n\007CAPSULE\020\003\022\010\n\004MESH\020\004"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1407);
+      descriptor, 1426);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Scene.proto", &protobuf_RegisterTypes);
 }
@@ -3380,6 +3382,7 @@ const int U3DPhysxMesh::kIndicesCountFieldNumber;
 const int U3DPhysxMesh::kIndicesFieldNumber;
 const int U3DPhysxMesh::kFixRotationFieldNumber;
 const int U3DPhysxMesh::kUvsFieldNumber;
+const int U3DPhysxMesh::kTrianglesFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 U3DPhysxMesh::U3DPhysxMesh()
@@ -3397,7 +3400,8 @@ U3DPhysxMesh::U3DPhysxMesh(const U3DPhysxMesh& from)
       _cached_size_(0),
       vertices_(from.vertices_),
       indices_(from.indices_),
-      uvs_(from.uvs_) {
+      uvs_(from.uvs_),
+      triangles_(from.triangles_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_rotation()) {
     rotation_ = new ::killer::proto::Vector4(*from.rotation_);
@@ -3471,6 +3475,7 @@ void U3DPhysxMesh::Clear() {
   vertices_.Clear();
   indices_.Clear();
   uvs_.Clear();
+  triangles_.Clear();
   cached_has_bits = _has_bits_[0];
   if (cached_has_bits & 7u) {
     if (cached_has_bits & 0x00000001u) {
@@ -3659,6 +3664,25 @@ bool U3DPhysxMesh::MergePartialFromCodedStream(
         break;
       }
 
+      // repeated int32 triangles = 12;
+      case 12: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(96u /* 96 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 1, 96u, input, this->mutable_triangles())));
+        } else if (
+            static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(98u /* 98 & 0xFF */)) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, this->mutable_triangles())));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -3750,6 +3774,12 @@ void U3DPhysxMesh::SerializeWithCachedSizes(
       11, this->uvs(static_cast<int>(i)), output);
   }
 
+  // repeated int32 triangles = 12;
+  for (int i = 0, n = this->triangles_size(); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(
+      12, this->triangles(i), output);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         _internal_metadata_.unknown_fields(), output);
@@ -3832,6 +3862,10 @@ void U3DPhysxMesh::SerializeWithCachedSizes(
         11, this->uvs(static_cast<int>(i)), deterministic, target);
   }
 
+  // repeated int32 triangles = 12;
+  target = ::google::protobuf::internal::WireFormatLite::
+    WriteInt32ToArray(12, this->triangles_, target);
+
   if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields(), target);
@@ -3878,6 +3912,15 @@ size_t U3DPhysxMesh::ByteSizeLong() const {
         ::google::protobuf::internal::WireFormatLite::MessageSize(
           this->uvs(static_cast<int>(i)));
     }
+  }
+
+  // repeated int32 triangles = 12;
+  {
+    size_t data_size = ::google::protobuf::internal::WireFormatLite::
+      Int32Size(this->triangles_);
+    total_size += 1 *
+                  ::google::protobuf::internal::FromIntSize(this->triangles_size());
+    total_size += data_size;
   }
 
   if (_has_bits_[0 / 32] & 255u) {
@@ -3967,6 +4010,7 @@ void U3DPhysxMesh::MergeFrom(const U3DPhysxMesh& from) {
   vertices_.MergeFrom(from.vertices_);
   indices_.MergeFrom(from.indices_);
   uvs_.MergeFrom(from.uvs_);
+  triangles_.MergeFrom(from.triangles_);
   cached_has_bits = from._has_bits_[0];
   if (cached_has_bits & 255u) {
     if (cached_has_bits & 0x00000001u) {
@@ -4024,6 +4068,7 @@ void U3DPhysxMesh::InternalSwap(U3DPhysxMesh* other) {
   vertices_.InternalSwap(&other->vertices_);
   indices_.InternalSwap(&other->indices_);
   uvs_.InternalSwap(&other->uvs_);
+  triangles_.InternalSwap(&other->triangles_);
   swap(rotation_, other->rotation_);
   swap(pos_, other->pos_);
   swap(scale_, other->scale_);

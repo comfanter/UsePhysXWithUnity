@@ -266,6 +266,12 @@ namespace Scene
                 mesh.uvs.Add(uv);
             }
 
+            //triangles
+            for (int i = 0; i < sharedMesh.triangles.Length; ++i)
+            {
+                mesh.triangles.Add(sharedMesh.triangles[i]);
+            }
+
 	        Debug.Log("Mesh ID: " + mesh.id);
             Debug.Log("Mesh Vertex num: " + mesh.vertex_count);
             Debug.Log("SubMeshCount: " + sharedMesh.subMeshCount);

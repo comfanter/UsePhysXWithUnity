@@ -1311,6 +1311,18 @@ class U3DPhysxMesh : public ::google::protobuf::Message /* @@protoc_insertion_po
   const ::google::protobuf::RepeatedPtrField< ::killer::proto::Vector2 >&
       uvs() const;
 
+  // repeated int32 triangles = 12;
+  int triangles_size() const;
+  void clear_triangles();
+  static const int kTrianglesFieldNumber = 12;
+  ::google::protobuf::int32 triangles(int index) const;
+  void set_triangles(int index, ::google::protobuf::int32 value);
+  void add_triangles(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      triangles() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_triangles();
+
   // optional .killer.proto.Vector4 rotation = 5;
   bool has_rotation() const;
   void clear_rotation();
@@ -1398,6 +1410,7 @@ class U3DPhysxMesh : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::google::protobuf::RepeatedPtrField< ::killer::proto::Vector3 > vertices_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > indices_;
   ::google::protobuf::RepeatedPtrField< ::killer::proto::Vector2 > uvs_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > triangles_;
   ::killer::proto::Vector4* rotation_;
   ::killer::proto::Vector3* pos_;
   ::killer::proto::Vector3* scale_;
@@ -2857,6 +2870,36 @@ inline const ::google::protobuf::RepeatedPtrField< ::killer::proto::Vector2 >&
 U3DPhysxMesh::uvs() const {
   // @@protoc_insertion_point(field_list:killer.proto.U3DPhysxMesh.uvs)
   return uvs_;
+}
+
+// repeated int32 triangles = 12;
+inline int U3DPhysxMesh::triangles_size() const {
+  return triangles_.size();
+}
+inline void U3DPhysxMesh::clear_triangles() {
+  triangles_.Clear();
+}
+inline ::google::protobuf::int32 U3DPhysxMesh::triangles(int index) const {
+  // @@protoc_insertion_point(field_get:killer.proto.U3DPhysxMesh.triangles)
+  return triangles_.Get(index);
+}
+inline void U3DPhysxMesh::set_triangles(int index, ::google::protobuf::int32 value) {
+  triangles_.Set(index, value);
+  // @@protoc_insertion_point(field_set:killer.proto.U3DPhysxMesh.triangles)
+}
+inline void U3DPhysxMesh::add_triangles(::google::protobuf::int32 value) {
+  triangles_.Add(value);
+  // @@protoc_insertion_point(field_add:killer.proto.U3DPhysxMesh.triangles)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+U3DPhysxMesh::triangles() const {
+  // @@protoc_insertion_point(field_list:killer.proto.U3DPhysxMesh.triangles)
+  return triangles_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+U3DPhysxMesh::mutable_triangles() {
+  // @@protoc_insertion_point(field_mutable_list:killer.proto.U3DPhysxMesh.triangles)
+  return &triangles_;
 }
 
 #ifdef __GNUC__
